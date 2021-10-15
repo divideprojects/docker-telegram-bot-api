@@ -1,0 +1,83 @@
+name: Docker Build
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - Dockerfile
+            - .dockerignore
+            - docker-entrypoint.sh
+            - .github/workflows/docker-build.yml
+    repository_dispatch:
+        # using: https://github.com/DivideProjects/repo-watcher-dispatch-sender
+        types: upstream_update
+
+env:
+    IMAGE_NAME: docker-telegram-bot-api
+    USER: divideprojects
+
+jobs:
+    build:
+        name: Build Image
+        runs-on: ubuntu-latest
+        permissions:
+            packages: write
+            contents: read
+
+        steps:
+            - name: Checkout current repo
+              uses: actions/checkout@v2
+
+            - name: Login to GitHub Container Registry
+              uses: docker/login-action@v1
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Login to DockerHub
+              uses: docker/login-action@v1
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Checkout telegram-bot-api repo
+              uses: actions/checkout@v2
+              with:
+                  repository: tdlib/telegram-bot-api
+                  path: telegram-bot-api
+                  submodules: recursive
+
+            - name: Get Version
+              run: |
+                  # get telegram bot api version
+                  telegram_bot_api_revision=$(cd telegram-bot-api && git rev-parse --short HEAD)
+
+                  # get tdlib version 
+                  tdlib_revision=$(cd telegram-bot-api/td && git rev-parse --short HEAD)
+
+                  # get tg server version
+                  tg_server_version=$(cat telegram-bot-api/CMakeLists.txt | grep TelegramBotApi | cut -d " " -f3)
+
+                  # concat tdlib and telegram bot api version
+                  revision=$tg_server_version-$telegram_bot_api_revision-$tdlib_revision
+
+                  # store variable for future use
+                  echo "revision=$revision" >> $GITHUB_ENV
+
+            - name: Build image
+              run: |
+                  docker build \
+                    --tag ghcr.io/$USER/$IMAGE_NAME:latest \
+                    --tag ghcr.io/$USER/$IMAGE_NAME:$revision \
+                    --tag docker.io/$USER/$IMAGE_NAME:latest \
+                    --tag docker.io/$USER/$IMAGE_NAME:$revision \
+                    .
+
+            - name: Push images
+              run: |
+                  docker push ghcr.io/$USER/$IMAGE_NAME:latest
+                  docker push ghcr.io/$USER/$IMAGE_NAME:$revision
+                  docker push docker.io/$USER/$IMAGE_NAME:latest
+                  docker push docker.io/$USER/$IMAGE_NAME:$revision

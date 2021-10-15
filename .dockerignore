@@ -1,0 +1,6 @@
+#ignore everythong
+**
+
+# allow only following files
+!/telegram-bot-api
+!docker-entrypoint.sh
