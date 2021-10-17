@@ -61,12 +61,6 @@ jobs:
                   echo "GIT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
                   echo "GIT_REF=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)" >> $GITHUB_ENV
 
-            - name: Cache Docker layers
-              uses: actions/cache@v2
-              with:
-                  path: /tmp/.buildx-cache
-                  key: ${{ runner.os }}-buildx-${{ github.sha }}
-
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v1
 
@@ -80,8 +74,8 @@ jobs:
                   context: .
                   platforms: linux/amd64,linux/arm64
                   push: true
-                  cache-from: type=local,src=/tmp/.buildx-cache
-                  cache-to: type=local,dest=/tmp/.buildx-cache
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
                   tags: |
                       ghcr.io/${{ env.IMAGE }}:latest
                       ghcr.io/${{ env.IMAGE }}:${{ env.BUILD_VER }}
@@ -95,3 +89,4 @@ jobs:
                       org.opencontainers.image.revision=${{ github.sha }}
                       org.opencontainers.image.source=https://github.com/${{ github.repository }}
                       org.opencontainers.image.version=${{ env.BUILD_VER }}
+  
