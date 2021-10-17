@@ -13,8 +13,8 @@
 <p align='center'>
   <a href="https://www.python.org/" alt="made-with-python"> <img src="https://img.shields.io/badge/Made%20with-Docker-1f425f.svg?style=flat-square&logo=docker&color=blue" /> </a>
   <a href="https://github.com/DivideProjects/docker-telegram-bot-api" alt="Docker!"> <img src="https://img.shields.io/docker/pulls/divideprojects/docker-telegram-bot-api.svg" /> </a>
+  <a href="https://hub.docker.com/r/divideprojects/docker-telegram-bot-api" alt="Docker Image Version"> <img src="https://img.shields.io/docker/v/divideprojects/docker-telegram-bot-api/latest?label=docker%20image%20ver." /> </a>
   <a href="https://deepsource.io/gh/DivideProjects/docker-telegram-bot-apir/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a>
-  <a href="https://makeapullrequest.com" alt="PRs Welcome"> <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" /> </a>
 </p>
 
 <p align='center'>
