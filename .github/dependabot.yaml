@@ -9,3 +9,11 @@ updates:
           timezone: "Asia/Kolkata"
       open-pull-requests-limit: 20
       target-branch: main
+    - package-ecosystem: "github-actions"
+      directory: "/"
+      schedule:
+          interval: daily
+          time: "09:00"
+          timezone: "Asia/Kolkata"
+      open-pull-requests-limit: 20
+      target-branch: main
