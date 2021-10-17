@@ -12,10 +12,7 @@ on:
     repository_dispatch:
         # using: https://github.com/DivideProjects/repo-watcher-dispatch-sender
         types: upstream_update
-
-env:
-    IMAGE_NAME: docker-telegram-bot-api
-    USER: divideprojects
+    workflow_dispatch:
 
 jobs:
     build:
@@ -49,35 +46,47 @@ jobs:
                   path: telegram-bot-api
                   submodules: recursive
 
-            - name: Get Version
+            - name: Set ENV Variables
               run: |
-                  # get telegram bot api version
+                  IMG="docker-telegram-bot-api"
+                  OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
+
                   telegram_bot_api_revision=$(cd telegram-bot-api && git rev-parse --short HEAD)
-
-                  # get tdlib version 
-                  tdlib_revision=$(cd telegram-bot-api/td && git rev-parse --short HEAD)
-
-                  # get tg server version
                   tg_server_version=$(cat telegram-bot-api/CMakeLists.txt | grep TelegramBotApi | cut -d " " -f3)
 
-                  # concat tdlib and telegram bot api version
-                  revision=$tg_server_version-$telegram_bot_api_revision-$tdlib_revision
+                  echo "BUILD_VER=$tg_server_version-$telegram_bot_api_revision" >> $GITHUB_ENV
+                  echo "IMG=${IMG}" >> $GITHUB_ENV
+                  echo "IMAGE=${OWNER}/${IMG}" >> $GITHUB_ENV
+                  echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+                  echo "GIT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+                  echo "GIT_REF=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)" >> $GITHUB_ENV
 
-                  # store variable for future use
-                  echo "revision=$revision" >> $GITHUB_ENV
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v1
 
-            - name: Build image
-              run: |
-                  docker build \
-                    --tag ghcr.io/$USER/$IMAGE_NAME:latest \
-                    --tag ghcr.io/$USER/$IMAGE_NAME:$revision \
-                    --tag docker.io/$USER/$IMAGE_NAME:latest \
-                    --tag docker.io/$USER/$IMAGE_NAME:$revision \
-                    .
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v1
 
-            - name: Push images
-              run: |
-                  docker push ghcr.io/$USER/$IMAGE_NAME:latest
-                  docker push ghcr.io/$USER/$IMAGE_NAME:$revision
-                  docker push docker.io/$USER/$IMAGE_NAME:latest
-                  docker push docker.io/$USER/$IMAGE_NAME:$revision
+            - name: Build and push
+              id: docker_build
+              uses: docker/build-push-action@v2
+              with:
+                  context: .
+                  platforms: linux/amd64,linux/arm64
+                  push: true
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
+                  tags: |
+                      ghcr.io/${{ env.IMAGE }}:latest
+                      ghcr.io/${{ env.IMAGE }}:${{ env.BUILD_VER }}
+                      ${{ env.IMAGE }}:latest
+                      ${{ env.IMAGE }}:${{ env.BUILD_VER }}
+                  labels: |
+                      org.opencontainers.image.authors=${{ github.repository_owner }}
+                      org.opencontainers.image.created=${{ env.BUILD_DATE }}
+                      org.opencontainers.image.description=Created from commit ${{ env.GIT_SHA }} and ref ${{ env.GIT_REF }}
+                      org.opencontainers.image.ref.name=${{ env.GIT_REF }}
+                      org.opencontainers.image.revision=${{ github.sha }}
+                      org.opencontainers.image.source=https://github.com/${{ github.repository }}
+                      org.opencontainers.image.version=${{ env.BUILD_VER }}
+  
