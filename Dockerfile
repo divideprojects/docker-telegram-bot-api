@@ -38,6 +38,8 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 EXPOSE 8081/tcp 8082/tcp
 
+RUN chmod +x /docker-entrypoint.sh
+
 HEALTHCHECK \
     --interval=5s \
     --timeout=30s \
