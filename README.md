@@ -62,7 +62,9 @@ Usage: `-e TELEGRAM_STAT=true -p 8082:8082` and then check that `curl http://<ho
 
 Server's working directory is `/var/lib/telegram-bot-api` so if you want to persist the server data, you can mount this folder as volume:
 
-```-v telegram-bot-api-data:/etc/telegram/bot/api````
+```
+-v telegram-bot-api-data:/etc/telegram/bot/api
+```
 
 ## Usage via docker stack deploy or docker-compose
 
