@@ -26,7 +26,7 @@ You can use this image to create a local [Local Bot API Server](https://core.tel
 
 ## Quick reference
 
-Before start, you will need to obtain `api-id` and `api-hash` as described in https://core.telegram.org/api/obtaining_api_id and specify them using the `TELEGRAM_API_ID` and `TELEGRAM_API_HASH` environment variables.
+Before start, you will need to obtain `api-id` and `api-hash` as described in [Telegram's Official Documentation](https://core.telegram.org/api/obtaining_api_id) and specify them using the `TELEGRAM_API_ID` and `TELEGRAM_API_HASH` environment variables.
 
 And then to start the Telegram Bot API all you need to run the following command:
 ```
