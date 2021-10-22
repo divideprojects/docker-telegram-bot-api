@@ -28,8 +28,10 @@ You can use this image to create a local [Local Bot API Server](https://core.tel
 
 Before start, you will need to obtain `api-id` and `api-hash` as described in https://core.telegram.org/api/obtaining_api_id and specify them using the `TELEGRAM_API_ID` and `TELEGRAM_API_HASH` environment variables.
 
-And then to start the Telegram Bot API all you need to do is
-`docker run -d -p 8081:8081 --name=telegram-bot-api --restart=always -v telegram-bot-api-data:/var/lib/telegram-bot-api -e TELEGRAM_API_ID=<api_id> -e TELEGRAM_API_HASH=<api-hash> divideprojects/docker-telegram-bot-api:latest`
+And then to start the Telegram Bot API all you need to run the following command:
+```
+docker run -d -p 8081:8081 --name=telegram-bot-api --restart=always -v telegram-bot-api-data:/var/lib/telegram-bot-api -e TELEGRAM_API_ID=<api_id> -e TELEGRAM_API_HASH=<api-hash> divideprojects/docker-telegram-bot-api:latest
+```
 
 ## How to use?
 ### Set the Environmental Variables
@@ -60,7 +62,7 @@ Usage: `-e TELEGRAM_STAT=true -p 8082:8082` and then check that `curl http://<ho
 
 Server's working directory is `/var/lib/telegram-bot-api` so if you want to persist the server data, you can mount this folder as volume:
 
-`-v telegram-bot-api-data:/etc/telegram/bot/api`
+```-v telegram-bot-api-data:/etc/telegram/bot/api````
 
 ## Usage via docker stack deploy or docker-compose
 
