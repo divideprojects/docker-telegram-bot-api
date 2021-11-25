@@ -32,7 +32,7 @@ RUN CXXFLAGS="-stdlib=libc++" CC=/usr/bin/clang CXX=/usr/bin/clang++ \
 FROM gcr.io/distroless/base
 
 ENV TELEGRAM_WORK_DIR="/var/lib/telegram-bot-api" \
-    TELEGRAM_TEMP_DIR="/tmp/telegram-bot-api
+    TELEGRAM_TEMP_DIR="/tmp/telegram-bot-api"
 
 COPY --from=builder \
     /usr/src/telegram-bot-api/bin/telegram-bot-api \
