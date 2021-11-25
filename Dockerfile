@@ -1,12 +1,18 @@
-FROM alpine:3.14 as builder
+FROM debian:11-slim AS builder
 
-RUN apk --no-cache add \
-    build-base \
-    cmake \
-    openssl-dev \
-    zlib-dev \
+WORKDIR /app
+
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install -y \
+    make \
+    git \
+    zlib1g-dev \
+    libssl-dev \
     gperf \
-    linux-headers
+    cmake \
+    clang \
+    libc++-dev \
+    libc++abi-dev
 
 WORKDIR /usr/src/telegram-bot-api
 
@@ -16,19 +22,17 @@ COPY telegram-bot-api/telegram-bot-api ./telegram-bot-api
 
 WORKDIR /usr/src/telegram-bot-api/build
 
-RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=.. .. \
- && cmake --build . --target install -j "$(nproc)"\
- && strip /usr/src/telegram-bot-api/bin/telegram-bot-api
+RUN CXXFLAGS="-stdlib=libc++" CC=/usr/bin/clang CXX=/usr/bin/clang++ \
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=.. .. \
+    && cmake --build . --target install -j "$(nproc)" \
+    && strip /usr/src/telegram-bot-api/bin/telegram-bot-api
 
 
-FROM alpine:3.14
+
+FROM gcr.io/distroless/base
 
 ENV TELEGRAM_WORK_DIR="/var/lib/telegram-bot-api" \
-    TELEGRAM_TEMP_DIR="/tmp/telegram-bot-api"
-
-RUN apk --no-cache --update add \
-    libstdc++ \
-    openssl
+    TELEGRAM_TEMP_DIR="/tmp/telegram-bot-api
 
 COPY --from=builder \
     /usr/src/telegram-bot-api/bin/telegram-bot-api \
