@@ -12,7 +12,8 @@ RUN apt-get update && apt-get upgrade -y \
     cmake \
     clang \
     libc++-dev \
-    libc++abi-dev
+    libc++abi-dev \
+    wget
 
 WORKDIR /usr/src/telegram-bot-api
 
@@ -28,6 +29,11 @@ RUN CXXFLAGS="-stdlib=libc++" CC=/usr/bin/clang CXX=/usr/bin/clang++ \
     && strip /usr/src/telegram-bot-api/bin/telegram-bot-api
 
 
+FROM builder AS bash-build
+COPY bash-setup.sh /
+RUN /bash-setup.sh
+
+
 
 FROM gcr.io/distroless/base
 
@@ -37,6 +43,10 @@ ENV TELEGRAM_WORK_DIR="/var/lib/telegram-bot-api" \
 COPY --from=builder \
     /usr/src/telegram-bot-api/bin/telegram-bot-api \
     /usr/local/bin/telegram-bot-api
+
+COPY --from=bash-build \
+    /static-bash/bash \
+    /bin/bash
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
@@ -48,4 +58,4 @@ HEALTHCHECK \
     --retries=3 \
     CMD nc -z localhost 8081 || exit 1
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]
