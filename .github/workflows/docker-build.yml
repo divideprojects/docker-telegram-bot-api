@@ -47,15 +47,11 @@ jobs:
 
       - name: Set ENV Variables
         run: |
-          IMG="docker-telegram-bot-api"
-          OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
-
+          IMG="$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
           telegram_bot_api_revision=$(cd telegram-bot-api && git rev-parse --short HEAD)
           tg_server_version=$(cat telegram-bot-api/CMakeLists.txt | grep TelegramBotApi | cut -d " " -f3)
-
           echo "BUILD_VER=$tg_server_version-$telegram_bot_api_revision" >> $GITHUB_ENV
-          echo "IMG=${IMG}" >> $GITHUB_ENV
-          echo "IMAGE=${OWNER}/${IMG}" >> $GITHUB_ENV
+          echo "IMAGE=${IMG}" >> $GITHUB_ENV
           echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
           echo "GIT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
           echo "GIT_REF=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)" >> $GITHUB_ENV
