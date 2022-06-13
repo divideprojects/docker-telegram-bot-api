@@ -1,5 +1,5 @@
 FROM alpine:3.16.0 as builder
-RUN apk --no-cache add \
+RUN apk --no-cache --update add \
     build-base \
     cmake \
     openssl-dev \
