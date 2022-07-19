@@ -1,4 +1,4 @@
-FROM alpine:3.16.0 as builder
+FROM alpine:3.16.1 as builder
 RUN apk --no-cache --update add \
     build-base \
     cmake \
@@ -17,7 +17,7 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=.. .. \
  && strip /app/bin/telegram-bot-api
 
 
-FROM alpine:3.16.0
+FROM alpine:3.16.1
 ENV TELEGRAM_WORK_DIR="/var/lib/telegram-bot-api" \
     TELEGRAM_TEMP_DIR="/tmp/telegram-bot-api"
 RUN apk --no-cache --update add \
