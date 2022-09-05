@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - Dockerfile
-      - docker-entrypoint.sh
-      - .dockerignore
-      - .github/workflows/docker-build.yml
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
@@ -68,7 +63,7 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
@@ -84,3 +79,26 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.version=${{ env.BUILD_VER }}
+  
+  update-description:
+    name: Update DockerHub Description
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+  automerge-dependabot-pr:
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v3.3.0
+        with:
+          target: minor
