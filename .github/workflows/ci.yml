@@ -93,13 +93,5 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
   automerge-dependabot-pr:
-    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
     needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
-    steps:
-      - uses: fastify/github-action-merge-dependabot@v3.4.0
-        with:
-          target: minor
+    uses: divkix/reusable-workflows/.github/workflows/automerge-dependabot-pr.yml@main
