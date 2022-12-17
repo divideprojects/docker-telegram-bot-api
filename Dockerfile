@@ -6,7 +6,6 @@ RUN apk --no-cache --update add \
     zlib-dev \
     gperf \
     linux-headers
-
 WORKDIR /app
 COPY telegram-bot-api/CMakeLists.txt .
 COPY telegram-bot-api/td ./td
