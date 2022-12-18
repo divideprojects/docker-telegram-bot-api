@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/github/license/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="LICENSE">
   <img src="https://img.shields.io/github/contributors/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="Contributors">
   <img src="https://img.shields.io/github/repo-size/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="Repo Size">
+  <a href="https://hub.docker.com/r/divideprojects/aliveimage"><img src="https://img.shields.io/docker/image-size/divideprojects/docker-telegram-bot-api/latest" alt="Docker Image Size (tag)"></a>
   <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/DivideProjects/docker-telegram-bot-api&amp;title=Profile%20Views" alt="Views">
 </p>
 
