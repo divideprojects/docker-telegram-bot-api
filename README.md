@@ -1,21 +1,21 @@
 # docker-telegram-bot-api
 
 <p align='center'>
-  <img src="https://img.shields.io/github/forks/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="Forks">
-  <img src="https://img.shields.io/github/stars/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="Stars">
-  <img src="https://img.shields.io/github/issues/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="Issues">
-  <img src="https://img.shields.io/github/license/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="LICENSE">
-  <img src="https://img.shields.io/github/contributors/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="Contributors">
-  <img src="https://img.shields.io/github/repo-size/DivideProjects/docker-telegram-bot-api?style=flat-square" alt="Repo Size">
-  <a href="https://hub.docker.com/r/divideprojects/aliveimage"><img src="https://img.shields.io/docker/image-size/divideprojects/docker-telegram-bot-api/latest" alt="Docker Image Size (tag)"></a>
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/DivideProjects/docker-telegram-bot-api&amp;title=Profile%20Views" alt="Views">
+  <img src="https://img.shields.io/github/forks/divkix/docker-telegram-bot-api?style=flat-square" alt="Forks">
+  <img src="https://img.shields.io/github/stars/divkix/docker-telegram-bot-api?style=flat-square" alt="Stars">
+  <img src="https://img.shields.io/github/issues/divkix/docker-telegram-bot-api?style=flat-square" alt="Issues">
+  <img src="https://img.shields.io/github/license/divkix/docker-telegram-bot-api?style=flat-square" alt="LICENSE">
+  <img src="https://img.shields.io/github/contributors/divkix/docker-telegram-bot-api?style=flat-square" alt="Contributors">
+  <img src="https://img.shields.io/github/repo-size/divkix/docker-telegram-bot-api?style=flat-square" alt="Repo Size">
+  <a href="https://hub.docker.com/r/divkix/aliveimage"><img src="https://img.shields.io/docker/image-size/divkix/docker-telegram-bot-api/latest" alt="Docker Image Size (tag)"></a>
+  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/divkix/docker-telegram-bot-api&amp;title=Profile%20Views" alt="Views">
 </p>
 
 <p align='center'>
   <a href="https://www.python.org/" alt="made-with-python"> <img src="https://img.shields.io/badge/Made%20with-Docker-1f425f.svg?style=flat-square&logo=docker&color=blue" /> </a>
   <a href="https://github.com/DivideProjects/docker-telegram-bot-api" alt="Docker!"> <img src="https://img.shields.io/docker/pulls/divideprojects/docker-telegram-bot-api.svg" /> </a>
-  <a href="https://hub.docker.com/r/divideprojects/docker-telegram-bot-api" alt="Docker Image Version"> <img src="https://img.shields.io/docker/v/divideprojects/docker-telegram-bot-api/latest?label=docker%20image%20ver." /> </a>
-  <a href="https://deepsource.io/gh/DivideProjects/docker-telegram-bot-api/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a>
+  <a href="https://hub.docker.com/r/divkix/docker-telegram-bot-api" alt="Docker Image Version"> <img src="https://img.shields.io/docker/v/divkix/docker-telegram-bot-api/latest?label=docker%20image%20ver." /> </a>
+  <a href="https://deepsource.io/gh/divkix/docker-telegram-bot-api/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a>
 </p>
 
 <p align='center'>
@@ -31,7 +31,7 @@ Before start, you will need to obtain `api-id` and `api-hash` as described in [T
 
 And then to start the Telegram Bot API all you need to run the following command:
 ```
-docker run -d -p 8081:8081 --name=telegram-bot-api --restart=always -v telegram-bot-api-data:/var/lib/telegram-bot-api -e TELEGRAM_API_ID=<api_id> -e TELEGRAM_API_HASH=<api-hash> divideprojects/docker-telegram-bot-api:latest
+docker run -d -p 8081:8081 --name=telegram-bot-api --restart=always -v telegram-bot-api-data:/var/lib/telegram-bot-api -e TELEGRAM_API_ID=<api_id> -e TELEGRAM_API_HASH=<api-hash> divkix/docker-telegram-bot-api:latest
 ```
 
 ## How to use?
@@ -74,7 +74,7 @@ version: '3.8'
 
 services:
   telegram-bot-api:
-    image: divideprojects/docker-telegram-bot-api:latest
+    image: divkix/docker-telegram-bot-api:latest
     environment:
       TELEGRAM_API_ID: "<api-id>"
       TELEGRAM_API_HASH: "<api-hash>"
