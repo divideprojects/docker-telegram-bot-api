@@ -13,13 +13,10 @@
 
 <p align='center'>
   <a href="https://www.python.org/" alt="made-with-python"> <img src="https://img.shields.io/badge/Made%20with-Docker-1f425f.svg?style=flat-square&logo=docker&color=blue" /> </a>
-  <a href="https://github.com/DivideProjects/docker-telegram-bot-api" alt="Docker!"> <img src="https://img.shields.io/docker/pulls/divideprojects/docker-telegram-bot-api.svg" /> </a>
+  <a href="https://github.com/Divkix/docker-telegram-bot-api" alt="Docker!"> <img src="https://img.shields.io/docker/pulls/divkix/docker-telegram-bot-api.svg" /> </a>
   <a href="https://hub.docker.com/r/divkix/docker-telegram-bot-api" alt="Docker Image Version"> <img src="https://img.shields.io/docker/v/divkix/docker-telegram-bot-api/latest?label=docker%20image%20ver." /> </a>
   <a href="https://deepsource.io/gh/divkix/docker-telegram-bot-api/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a>
 </p>
-
-<p align='center'>
-  <a href="https://t.me/DivideProjects"><img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&amp;logo=telegram&amp;logoColor=white" alt="Join us on Telegram"></a></br></br>
 
 This is an unofficial docker image for [tdlib/telegram-bot-api](https://github.com/tdlib/telegram-bot-api)
 
