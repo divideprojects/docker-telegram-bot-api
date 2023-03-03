@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as builder
+FROM ubuntu:23.04 as builder
 RUN apt-get install make git zlib1g-dev libssl-dev gperf cmake clang-14 libc++-dev libc++abi-dev
 WORKDIR /app
 COPY telegram-bot-api/CMakeLists.txt .
@@ -10,7 +10,7 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=.. .. \
     && strip /app/bin/telegram-bot-api
 
 
-FROM ubuntu:22.04
+FROM ubuntu:23.04
 ENV TELEGRAM_WORK_DIR="/var/lib/telegram-bot-api" \
     TELEGRAM_TEMP_DIR="/tmp/telegram-bot-api"
 RUN apt-get install \
