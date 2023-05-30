@@ -5,15 +5,17 @@ RUN apk --no-cache --update add \
     openssl-dev \
     zlib-dev \
     gperf \
-    linux-headers
+    linux-headers \
+    upx
 WORKDIR /app
 COPY telegram-bot-api/CMakeLists.txt .
 COPY telegram-bot-api/td ./td
 COPY telegram-bot-api/telegram-bot-api ./telegram-bot-api
 WORKDIR /app/build
 RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=.. .. \
- && cmake --build . --target install -j "$(nproc)"\
- && strip /app/bin/telegram-bot-api
+    && cmake --build . --target install -j "$(nproc)"\
+    && strip /app/bin/telegram-bot-api \
+    && upx --brute /app/bin/telegram-bot-api
 
 
 FROM alpine:3.18
@@ -28,9 +30,17 @@ COPY --from=builder \
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 EXPOSE 8081/tcp 8082/tcp
 RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
 HEALTHCHECK \
     --interval=5s \
     --timeout=30s \
     --retries=3 \
     CMD nc -z localhost 8081 || exit 1
-ENTRYPOINT ["/docker-entrypoint.sh"]
+
+LABEL org.opencontainers.image.authors="Divanshu Chauhan <divkix@divkix.me>"
+LABEL org.opencontainers.image.url="https://divkix.me"
+LABEL org.opencontainers.image.source="https://github.com/divkix/docker-telegram-bot-api"
+LABEL org.opencontainers.image.title="Docker Telegram Bot API"
+LABEL org.opencontainers.image.description="Docker image of telegram-bot-api built using Github Actions"
+LABEL org.opencontainers.image.vendor="Divkix"
