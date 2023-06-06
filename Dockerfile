@@ -40,7 +40,7 @@ HEALTHCHECK \
 
 LABEL org.opencontainers.image.authors="Divanshu Chauhan <divkix@divkix.me>"
 LABEL org.opencontainers.image.url="https://divkix.me"
-LABEL org.opencontainers.image.source="https://github.com/divkix/docker-telegram-bot-api"
+LABEL org.opencontainers.image.source="https://github.com/divideprojects/docker-telegram-bot-api"
 LABEL org.opencontainers.image.title="Docker Telegram Bot API"
 LABEL org.opencontainers.image.description="Docker image of telegram-bot-api built using Github Actions"
 LABEL org.opencontainers.image.vendor="Divkix"
